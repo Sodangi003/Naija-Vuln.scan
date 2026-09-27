@@ -1,0 +1,9 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+*.db
+reports/*.html
+node_modules/
+package-lock.json
