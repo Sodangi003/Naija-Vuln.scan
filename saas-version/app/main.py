@@ -27,7 +27,7 @@ COOKIE_NAME = "session_token"
 
 @app.get("/signup", response_class=HTMLResponse)
 def signup_form(request: Request):
-    return templates.TemplateResponse("signup.html", {"request": request, "trial_days": config.TRIAL_DAYS})
+    return templates.TemplateResponse(request, "signup.html", {"trial_days": config.TRIAL_DAYS})
 
 
 @app.post("/signup")
@@ -49,7 +49,7 @@ def signup(request: Request, email: str = Form(...), password: str = Form(...), 
 
 @app.get("/login", response_class=HTMLResponse)
 def login_form(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(request, "login.html", {})
 
 
 @app.post("/login")
@@ -86,8 +86,7 @@ def dashboard(request: Request, user: models.User = Depends(get_current_user), d
         .all()
     )
     allowed, reason = can_scan(user)
-    return templates.TemplateResponse("dashboard.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "dashboard.html", {
         "user": user,
         "domains": domains,
         "scans": scans,
@@ -118,8 +117,7 @@ def verify_instructions(request: Request, domain_id: int,
     if not domain:
         raise HTTPException(status_code=404, detail="Domain not found.")
 
-    return templates.TemplateResponse("verify_domain.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "verify_domain.html", {
         "domain": domain,
         "dns_instructions": domain_verify.dns_txt_instructions(domain.hostname, domain.verification_token),
         "file_instructions": domain_verify.file_upload_instructions(domain.hostname, domain.verification_token),
@@ -182,8 +180,7 @@ def view_report(scan_id: int, user: models.User = Depends(get_current_user), db:
 
 @app.get("/billing", response_class=HTMLResponse)
 def billing_page(request: Request, user: models.User = Depends(get_current_user)):
-    return templates.TemplateResponse("billing.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "billing.html", {
         "price": config.SUBSCRIPTION_PRICE_NGN,
         "period_days": config.SUBSCRIPTION_PERIOD_DAYS,
     })
