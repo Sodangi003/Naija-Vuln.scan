@@ -1,4 +1,4 @@
-# NaijaVulnScan
+# NG-VulnScan
 
 A lightweight, mostly-free vulnerability assessment tool built for
 small and medium businesses — with Nigerian SMEs specifically in mind,
